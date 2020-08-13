@@ -72,18 +72,30 @@ class TokenValidator extends LinValidator {
         ]
     }
 
-    validateLoginType(vals){
-        if(!vals.body.type){
+    validateLoginType(vals) {
+        if (!vals.body.type) {
             throw new Error('type是必须参数');
         }
-        if(!LoginType.isThisType(vals.body.type)){
+        if (!LoginType.isThisType(vals.body.type)) {
             throw new Error('type参数不合法');
         }
     }
 }
 
+
+class NotEmptyValidator extends LinValidator {
+    constructor() {
+        super();
+        this.token = [
+            new Rule('isLength', '不允许为空', { min: 1 })
+        ]
+    }
+}
+
+
 module.exports = {
     PositiveIntegerValidator,
     RegisterValidator,
-    TokenValidator
+    TokenValidator,
+    NotEmptyValidator
 }
