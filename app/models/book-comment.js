@@ -32,12 +32,12 @@ class Comment extends Model {
         return comments;
     }
 
-    toJSON() {
+    /* toJSON() {
         return {
             content: this.getDataValue('content'),
             nums: this.getDataValue('nums')
         }
-    }
+    } */
 
 }
 

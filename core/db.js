@@ -1,4 +1,5 @@
-const Sequelize = require('sequelize');
+const { Sequelize, Model } = require('sequelize');
+const { unset, clone } = require('lodash');
 const {
     dbName,
     host,
@@ -34,6 +35,15 @@ const sequelize = new Sequelize(dbName, user, password, {
 sequelize.sync({
     force: false
 });
+
+Model.prototype.toJSON = function () {
+    let data = clone(this.dataValues);
+    unset(data, 'updated_at');
+    unset(data, 'created_at');
+    unset(data, 'deleted_at');
+    return data;
+}
+
 
 module.exports = {
     sequelize
