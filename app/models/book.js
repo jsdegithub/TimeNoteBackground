@@ -6,6 +6,7 @@ const { Favor } = require('./favor');
 
 
 class Book extends Model {
+    //此处在Model中定义构造函数后，不能使用Book做查询操作，否则会出错
     constructor(id) {
         super();
         this.id = id;

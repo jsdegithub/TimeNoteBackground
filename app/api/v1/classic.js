@@ -42,6 +42,7 @@ router.get('/:index/next', new Auth().m, async (ctx) => {
     const likeNext = await Favor.userLikeIt(flow.art_id, flow.type, ctx.auth.uid);
     art.setDataValue('index', flow.index);
     art.setDataValue('like_status', likeNext);
+    // art.exclude = ['index', 'like_status'];  // 推荐这么做
     ctx.body = art;
 })
 

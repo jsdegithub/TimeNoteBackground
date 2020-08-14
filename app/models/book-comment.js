@@ -41,6 +41,10 @@ class Comment extends Model {
 
 }
 
+
+Comment.prototype.exclude=['book_id', 'id'];  //不推荐这么做
+
+
 Comment.init({
     content: Sequelize.STRING(12),
     nums: {
