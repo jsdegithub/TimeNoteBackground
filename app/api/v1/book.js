@@ -2,9 +2,11 @@ const Router = require('koa-router');
 
 const { HotBook } = require('@models/hot-book');
 const { Book } = require('@models/book');
-const { PositiveIntegerValidator, SearchValidator } = require('@validator');
+const { PositiveIntegerValidator, SearchValidator, AddShortCommentValidator } = require('@validator');
 const { Auth } = require('../../../middlewares/auth');
 const { Favor } = require('../../models/favor');
+const { Comment } = require('../../models/book-comment');
+const { success } = require('../../lib/helper');
 
 const router = new Router({
     prefix: '/v1/book'
@@ -48,6 +50,17 @@ router.get('/:book_id/favor', new Auth().m, async ctx => {
     const favor = await Favor.getBookFavor(ctx.auth.uid, v.get('path.book_id'));
     ctx.body = favor;
 })
+
+
+router.post('/add/short_comment', new Auth().m, async ctx => {
+    const v = await new AddShortCommentValidator().validate(ctx, {
+        id: 'book_id'
+    })
+    Comment.addComment(v.get('body.book_id'), v.get('body.content'));
+    success();
+})
+
+
 
 
 
