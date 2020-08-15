@@ -12,11 +12,11 @@ class Art {
     }
 
     async getDetail(uid) {
+        const { Favor } = require('./favor');
         const art = await Art.getData(this.art_id, this.type);
         if (!art) {
             throw new global.errs.NotFound();
         }
-        const { Favor } = require('./favor');
         const like = await Favor.userLikeIt(this.art_id, this.type, uid);
         return {
             art,
@@ -97,10 +97,21 @@ class Art {
                 art = await Sentence.scope(scope).findOne(finder);
                 break;
             case 400:
+                const { Book } = require('./book');
+                art = await Book.scope(scope).findOne(finder);
+                if (!art) {
+                    art = await Book.create({
+                        id: art_id
+                    })
+                }
                 break;
             default:
 
         }
+        /* if (art && art.image) {
+            let imgUrl = art.dataValues.image;
+            art.dataValues.image = global.config.host + imgUrl;
+        } */
         return art;
     }
 }
